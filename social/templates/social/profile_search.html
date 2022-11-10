@@ -1,0 +1,34 @@
+{% extends 'navbar.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-5 col-sm-6">
+            <a href="{% url 'post_list' %}" class="btn btn-light">Back To Feed</a>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-4"></div>
+        {% for profile in profile_list %}
+        <div class="col-md-4">
+            <div class="card border-info mb-3 ">
+                <div class="card-header border-info bg-info">
+                    <a href="{% url 'user-profile' profile.pk %}" style="color:blue;text-decoration: none;font-size: 17px;"><strong>@{{ profile.user|title }}</strong></a> 
+                    
+                </div>
+                <div class="card-body ">
+                    {% if profile.location %}
+                    <span > <i class="fa-solid fa-location-dot" style="color:navy;"></i> {{ profile.location }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+
+        <div class="col-md-4"></div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,15 @@
+body {
+
+    background-color: ghostwhite;
+}
+nav{
+    background-color: navy;
+
+}
+.post{
+    border: 2px solid aquamarine;
+    border-radius: 8px;
+}
+.header{
+    padding-left: 10px;
+}

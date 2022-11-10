@@ -1,0 +1,75 @@
+{% extends 'navbar.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="row mt-4">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+   <div class="card border-success mb-3 ">
+    <div class="card-header border-success bg-success ">
+      <strong style="color:white;">{{ post.author|title }} | </strong><span style="color:white;">{{post.created_on}} </span>
+      <span style="float:right;">
+        {% if request.user == post.author %}
+        <a href="{% url 'post-edit' post.pk %}" style="color: navy;font-size: 22px;"><i class="fa-solid fa-pen-to-square"></i></a> 
+        <a href="{% url 'post-delete' post.pk %}" style="color: red;font-size: 22px;"><i class="fas fa-trash"></i></a>
+        {% endif %}
+      </span>
+    </div>
+    <div class="card-body position-relative border-bottom border-success">
+      <p class="card-text">{{ post.body }}</p>
+      <a href="{% url 'post' post.id %}" class="stretched-link"></a>
+    </div>
+    <div class="d-flex flex-row">
+      <form method="POST" action="{% url 'like' post.pk %}">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.path }}">
+        <button style="background-color: transparent; border: none; box-shadow: none;" type="submit">
+          <i class="fa-solid fa-thumbs-up" style="color:navy;"> <span style="font-size:12px;"> {{ post.likes.all.count }} </span> </i>
+        </button>
+      </form>
+      <form method="POST" action="{% url 'dislike' post.pk %}">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.path }}">
+        <button style="background-color: transparent; border: none; box-shadow: none;" type="submit">
+          <i class="fa-solid fa-thumbs-down" style="color:navy;"> <span style="font-size:12px;">{{ post.dislikes.all.count }}</span> </i>
+        </button>
+      </form>
+    </div>
+
+    <form method="POST" class="border-top border-success">
+      {% csrf_token %}
+      {{ commentForm | crispy }}
+      <div class="d-grid ">
+        <button class="btn btn-success ">Comment</button>
+      </div>
+    </form>
+  </div>
+  <div class="alert alert-info"><strong>Comments from multiple users</strong></div>
+</div>
+<div class="col-md-4"></div>
+</div>
+{% for comment in comments %}
+<div class="row mt-4">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+   <div class="card border-info mb-3 ">
+    <div class="card-header border-info bg-info ">
+      <strong style="color:white;">{{ comment.author }} </strong><span style="color:white;">{{ comment.created_on }}</span>
+      <span style="float:right;">
+        {% if request.user == comment.author%}
+        <a href="{% url 'comment-delete' post.pk comment.pk %}" style="color: red;font-size: 22px;"><i class="fas fa-trash"></i></a>
+        {% endif %}
+      </span>
+    </div>
+    <div class="card-body ">
+      <p class="card-text">{{ comment.comment }}</p>
+    </div>
+
+  </div>
+  
+</div>
+<div class="col-md-4"></div>
+</div>
+{% endfor %}
+{% endblock content %}

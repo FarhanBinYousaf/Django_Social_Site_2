@@ -1,0 +1,23 @@
+{% extends 'navbar.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="alert alert-info"><strong>Login</strong></div>
+            <form method="POST" >
+                {% csrf_token %}
+                 {{ form|crispy}}
+                <input type="submit" value="Login" class="btn btn-outline-info">
+            </form>
+           <div class="small mt-4 text-center">
+               <small style="font-size: 16px;">Don't have an account? <a href="{% url 'register' %}" >Register</a></small>
+           </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+    
+
+{% endblock content %}

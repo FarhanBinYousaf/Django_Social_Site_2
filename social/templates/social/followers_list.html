@@ -1,0 +1,37 @@
+{% extends 'navbar.html' %}
+{% block content %}
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-3 col-sm-6">
+            <a href="" class="btn btn-light">Back to Feed</a>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-5">
+        <div class="shadow-lg p-3 mb-5 bg-body rounded card col-md-6 col-sm-12 border-bottom px-5 pt-3 ">
+           <h4>Followers of : <span style="color:navy;font-weight: 700;">
+            {% if profile.name %}
+           {{ profile.name }}
+            {% else %}
+           {{ profile.user.username }}
+        {% endif %}</span> </h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <div class="card">
+            <ul class="list-group list-group-flush">
+                {% for follower in followers %}
+                <li class="list-group-item">
+                    <a href="{% url 'user-profile' follower.profile.pk %}"><img src="{{ follower.profile.image.url }}" class="rounded-circle" height="40" width="40"></a>
+                    <a href="{% url 'user-profile' follower.profile.pk %}" style="text-decoration:none;font-size: 19px;">{{ follower.profile.user.username }} (<span>{{ follower.profile.followers.count }}</span>) </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+
+</div>
+{% endblock content %}
